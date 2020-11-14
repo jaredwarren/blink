@@ -30,12 +30,10 @@ in ws2811
 
 `docker build --tag rpi-ws281x-go-builder .`
 
-`docker run --rm -ti -v "$(pwd)":/go/src/test rpi-ws281x-go-builder /usr/bin/qemu-arm-static /bin/sh -c "go build -o src/test/test -v test"`
-or
 `docker run --rm -ti -v "$(pwd)":/go/src/swiss rpi-ws281x-go-builder /usr/bin/qemu-arm-static /bin/sh -c "go build -o src/swiss/swiss -v swiss"`
 
 
-`scp swis pi@192.168.0.117:/home/pi/`
+`scp swiss pi@192.168.0.117:/home/pi/`
 
 
 
