@@ -11,6 +11,8 @@ TODO: ip not static
 <!-- TODO: add ssh key to pi so I don't need password -->
 TODO: make makefile
 
+NOTE: add go inc to dockerfile
+
 
 
 # build
