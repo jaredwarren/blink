@@ -21,5 +21,6 @@ COPY --from=builder /tmp/rpi_ws281x/*.h /usr/local/include/
 # Add all needed go libs here
 RUN go get -v -u github.com/rpi-ws281x/rpi-ws281x-go
 RUN go get -u github.com/spf13/cobra
+RUN go get -u github.com/jaredwarren/app
 
 RUN [ "cross-build-end" ]

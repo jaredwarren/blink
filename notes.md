@@ -6,7 +6,7 @@ notes.md
 `arp -na | grep -i b8:27:eb`
 
 ## Connect
-`ssh pi@192.168.0.117` pass: RV<=fun?
+`ssh pi@192.168.0.111` pass: RV<=fun?
 TODO: ip not static
 <!-- TODO: add ssh key to pi so I don't need password -->
 TODO: make makefile
@@ -20,8 +20,8 @@ NOTE: add go inc to dockerfile
 `GOARM=6 GOARCH=arm GOOS=linux go build`
 
 # move
-scp blink-1 pi@192.168.0.117:/home/pi/
-ssh -t pi@192.168.0.117 "./blink-1"
+scp blink-1 pi@192.168.0.111:/home/pi/
+ssh -t pi@192.168.0.111 "./blink-1"
 
 
 
@@ -35,7 +35,7 @@ in ws2811
 `docker run --rm -ti -v "$(pwd)":/go/src/swiss rpi-ws281x-go-builder /usr/bin/qemu-arm-static /bin/sh -c "go build -o src/swiss/swiss -v swiss"`
 
 
-`scp swiss pi@192.168.0.117:/home/pi/`
+`scp swiss pi@192.168.0.111:/home/pi/`
 
 
 

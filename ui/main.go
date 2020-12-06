@@ -14,7 +14,7 @@ func main() {
 	}
 	a := app.NewWeb(conf)
 
-	service.Register(a)
+	service.Register(a, nil)
 
 	d := <-a.Exit
 	fmt.Printf("Done:%+v\n", d)
