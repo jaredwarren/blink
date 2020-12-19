@@ -143,15 +143,30 @@ func main() {
 
 	// fmt.Println("Hello,", Magenta("Aurora"))
 	// fmt.Println(Bold(Red(".")))
-	fs := genWipe(10, Pattern{"red", "white"})
 
-	for _, f := range fs {
-		for _, ff := range f {
-			pp(ff)
+	{
+		fs := genChase(10, Pattern{"red", "white"}, Pattern{"green"})
+		for _, f := range fs {
+			for _, ff := range f {
+				pp(ff)
+			}
+
+			fmt.Println("")
 		}
-
-		fmt.Println("")
 	}
+
+	// test wipe
+	if false {
+		fs := genWipe(10, Pattern{"red", "white"}, Pattern{"green"})
+		for _, f := range fs {
+			for _, ff := range f {
+				pp(ff)
+			}
+
+			fmt.Println("")
+		}
+	}
+	return
 	// fmt.Println(fs)
 
 	fmt.Println()
@@ -193,11 +208,43 @@ func main() {
 	// c2 := []string{"red", "red", "green", "white"}
 
 	// print(c1, c2)
+}
 
+func genChase(l int, p, back Pattern) []Frame {
+
+	var (
+		// sampleRate      = uint32(10)             // The number of samples per second
+		// NumberOfSamples = sampleRate * uint32(1) // This is the length of the sound file in seconds
+		waveform = []uint16{}
+		// length          = NumberOfSamples
+		// phase           = 0.0
+	)
+	const (
+		bitsPerSample = 1     //16
+		frequency     = 255.0 //440.0
+		volume        = 1     //32000.0
+	)
+
+	fmt.Println("Generating sine wave...")
+	// var frequencyRadiansPerSample = frequency * 2 * math.Pi / float64(sampleRate)
+	f := math.Pi / 7
+	for i := float64(0); i <= math.Pi; i = i + f {
+		// fmt.Println(math.Sin(i), math.Floor(math.Sin(i)*255))
+		v := uint16(math.Floor(math.Sin(i) * 255))
+		fmt.Printf("%d, %x\n", v, v)
+
+		// phase += frequencyRadiansPerSample
+		// s := float64(volume) * math.Sin(phase)
+		// waveform[i] = float64(s)
+		waveform = append(waveform, v)
+	}
+	fmt.Println(waveform)
+
+	return []Frame{}
 }
 
 // It would be nice to  "spread out" / repeat frames
-func genWipe(l int, p Pattern) []Frame {
+func genWipe(l int, p, back Pattern) []Frame {
 	frames := make([]Frame, l)
 	for i := 0; i < l; i++ {
 		f := make(Frame, 0, l)
@@ -208,7 +255,7 @@ func genWipe(l int, p Pattern) []Frame {
 			if j <= i {
 				f.PushP(p)
 			} else {
-				f.Fill(Pattern{"green"}) // TODO: replace with "nil"
+				f.Fill(back) // TODO: replace with "nil"
 				done = false
 			}
 		}
