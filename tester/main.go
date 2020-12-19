@@ -212,33 +212,27 @@ func main() {
 
 func genChase(l int, p, back Pattern) []Frame {
 
-	var (
-		// sampleRate      = uint32(10)             // The number of samples per second
-		// NumberOfSamples = sampleRate * uint32(1) // This is the length of the sound file in seconds
-		waveform = []uint16{}
-		// length          = NumberOfSamples
-		// phase           = 0.0
-	)
-	const (
-		bitsPerSample = 1     //16
-		frequency     = 255.0 //440.0
-		volume        = 1     //32000.0
-	)
-
-	fmt.Println("Generating sine wave...")
-	// var frequencyRadiansPerSample = frequency * 2 * math.Pi / float64(sampleRate)
-	f := math.Pi / 7
-	for i := float64(0); i <= math.Pi; i = i + f {
-		// fmt.Println(math.Sin(i), math.Floor(math.Sin(i)*255))
-		v := uint16(math.Floor(math.Sin(i) * 255))
-		fmt.Printf("%d, %x\n", v, v)
-
-		// phase += frequencyRadiansPerSample
-		// s := float64(volume) * math.Sin(phase)
-		// waveform[i] = float64(s)
-		waveform = append(waveform, v)
+	{
+		waveform := []uint16{}
+		// f := math.Pi / 7
+		for i := 0; i <= 7; i++ {
+			v := uint16(math.Floor(math.Sin(float64(i)) * 255))
+			// fmt.Printf("%d, %x\n", v, v)
+			waveform = append(waveform, v)
+		}
+		fmt.Println(waveform)
 	}
-	fmt.Println(waveform)
+
+	{
+		waveform := []uint16{}
+		f := math.Pi / 7
+		for i := float64(0); i <= math.Pi; i = i + f {
+			v := uint16(math.Floor(math.Sin(i) * 255))
+			// fmt.Printf("%d, %x\n", v, v)
+			waveform = append(waveform, v)
+		}
+		fmt.Println(waveform)
+	}
 
 	return []Frame{}
 }
