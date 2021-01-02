@@ -144,7 +144,7 @@ func main() {
 	// fmt.Println("Hello,", Magenta("Aurora"))
 	// fmt.Println(Bold(Red(".")))
 
-	{
+	if false {
 		fs := genChase(10, Pattern{"red", "white"}, Pattern{"green"})
 		for _, f := range fs {
 			for _, ff := range f {
@@ -156,7 +156,7 @@ func main() {
 	}
 
 	// test wipe
-	if false {
+	if true {
 		fs := genWipe(10, Pattern{"red", "white"}, Pattern{"green"})
 		for _, f := range fs {
 			for _, ff := range f {
@@ -211,28 +211,32 @@ func main() {
 }
 
 func genChase(l int, p, back Pattern) []Frame {
-
+	fmt.Println("======")
 	{
 		waveform := []uint16{}
 		// f := math.Pi / 7
 		for i := 0; i <= 7; i++ {
-			v := uint16(math.Floor(math.Sin(float64(i)) * 255))
+			fmt.Println(float64(i) * (math.Pi / 7))
+			fmt.Println(math.Sin(float64(i) * (math.Pi / 7)))
+			v := uint16(math.Floor(math.Sin(float64(i)*(math.Pi)) * 255))
 			// fmt.Printf("%d, %x\n", v, v)
 			waveform = append(waveform, v)
 		}
-		fmt.Println(waveform)
+		// fmt.Println(waveform)
 	}
-
+	fmt.Println("======")
 	{
 		waveform := []uint16{}
 		f := math.Pi / 7
 		for i := float64(0); i <= math.Pi; i = i + f {
+			fmt.Println(i)
 			v := uint16(math.Floor(math.Sin(i) * 255))
 			// fmt.Printf("%d, %x\n", v, v)
 			waveform = append(waveform, v)
 		}
-		fmt.Println(waveform)
+		// fmt.Println(waveform)
 	}
+	fmt.Println("======")
 
 	return []Frame{}
 }

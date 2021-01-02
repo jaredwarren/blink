@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
 	"sync"
 	"time"
@@ -60,6 +61,7 @@ var (
 
 func main() {
 	fmt.Println("Starting....")
+	rand.Seed(42)
 	// Setup device
 	opt := ws2811.DefaultOptions
 	opt.Channels[0].Brightness = brightness
@@ -77,35 +79,8 @@ func main() {
 	}
 	defer dev.Fini()
 
-	//
-	// setup strands
-	//
-	strands = []*Strand{
-		&Strand{
-			Name:    "Left",
-			NumLeds: 300,
-			Reverse: false,
-		},
-		&Strand{
-			Name:    "Right",
-			NumLeds: 300,
-			Reverse: true,
-		},
-	}
-
-	//
 	// Run
-	//
 	run()
-
-	wg.Wait()
-}
-
-func render() {
-	for _, s := range strands {
-		s.Render()
-	}
-	dev.Render()
 }
 
 func clear() {
@@ -117,18 +92,42 @@ func clear() {
 
 func run() {
 	fmt.Println("~~~ run ~~~")
-
-	wg.Add(1)
+	clear()
+	return
 	go func() {
-		clear()
-
-		// setRG()
-
-		// wipe("red")
-		// wipe("green")
-		// wipe("white")
-		wg.Done()
+		for {
+			var x int
+			x = rand.Intn(6)
+			fmt.Println(x)
+			switch x {
+			case 0:
+				wipe("red")
+			case 1:
+				wipe("green")
+			case 2:
+				wipe("white")
+			case 3:
+				wipe("black")
+			case 4:
+				setRG()
+				time.Sleep(1 * time.Second)
+			case 5:
+				wipe("green")
+			case 6:
+				wipe("red")
+			default:
+				fmt.Println("clear")
+				clear()
+			}
+			time.Sleep(1 * time.Second)
+		}
 	}()
+
+	select {
+	case <-time.After(time.Minute * 100):
+		fmt.Println("Timeout hit..")
+		return
+	}
 
 	// go redGreen()
 	// go redWhiteGreen()
@@ -161,7 +160,7 @@ func run() {
 
 	// TODO: make service to update?
 
-	fmt.Fprintf(w, "running...")
+	// fmt.Fprintf(w, "running...")
 }
 
 func setRG() {
@@ -191,12 +190,10 @@ func wipe(color string) {
 			continue
 		}
 
-		// fmt.Println("set:", i, color)
-
 		setC1(i, color)
 		setC2(i, color)
 		dev.Render()
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 	}
 }
 
@@ -204,13 +201,11 @@ var everyOther = true
 
 func setC1(i int, color string) {
 	i = i + ledPerStrand
-	// fmt.Println("  1:", i)
 	dev.Leds(0)[i] = getHex(color)
 }
 
 func setC2(i int, color string) {
 	i = ledPerStrand - i - 1
-	// fmt.Println("  2:", i)
 	dev.Leds(0)[i] = getHex(color)
 }
 
